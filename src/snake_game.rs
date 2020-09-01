@@ -1,25 +1,41 @@
-mod snake_game {
-    pub const PIXEL_SIZE: u32 = 16;
-    pub const GAME_WIDTH: u32 = 39;
-    pub const GAME_HEIGHT: u32 = 29;
+use std::rc::Rc;
+use sdl2::rect::Point;
+use sdl2::render::Canvas;
+use sdl2::video::Window;
 
-    #[derive(Copy, Clone)]
-    pub enum GameState {        
-        Paused,
-        Playing,
-        GameOver,
-        GameWin
-    }
-    
-    pub struct SnakeGame {
-        state: State,
-    }
+pub const PIXEL_SIZE: u32 = 16;
+pub const GAME_WIDTH: u32 = 39;
+pub const GAME_HEIGHT: u32 = 29;
 
-    impl SnakeGame {
-        pub fn new() -> SnakeGame {
+#[derive(Copy, Clone)]
+pub enum GameState {
+    Paused,
+    Playing,
+    GameOver,
+    GameWin,
+}
 
+pub struct Snake {
+    direction: Point,
+    width: u32,
+    height: u32,
+    positions: Vec<Point>,
+}
+
+pub struct SnakeGame {
+    canvas: Rc<Canvas<Window>>,
+    state: GameState,
+}
+
+impl SnakeGame {
+    pub fn new(canvas: Canvas<Window>) -> SnakeGame {
+        SnakeGame {
+            canvas: Rc::new(canvas),
+            state: GameState::Paused,
         }
+    }
 
-        //  fn draw_border()
+    pub fn update() {
+        println!("SnakeGame.update");
     }
 }

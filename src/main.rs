@@ -1,12 +1,15 @@
 extern crate sdl2;
+mod snake_game;
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::pixels::{Color};
+use sdl2::pixels::Color;
 use sdl2::rect::Rect;
-use sdl2::render::{Canvas};
+use sdl2::render::Canvas;
 use sdl2::video::Window;
 use std::time::Duration;
+
+pub const FPS: u32 = 30;
 
 pub fn main() -> Result<(), String> {
     let sdl_context = sdl2::init()?;
@@ -25,8 +28,10 @@ pub fn main() -> Result<(), String> {
         .build()
         .map_err(|e| e.to_string())?;
 
-    let mut event_pump = sdl_context.event_pump()?;
+    let mut game = snake_game::SnakeGame::new(canvas);
 
+    let mut event_pump = sdl_context.event_pump()?;
+    let mut frame : u32 = 0;
     'running: loop {
         for event in event_pump.poll_iter() {
             match event {
@@ -38,6 +43,12 @@ pub fn main() -> Result<(), String> {
                 _ => {}
             }
         }
+
+        if frame >= FPS {
+            //game.update();
+            frame = 0;
+        }
+
         canvas.set_draw_color(Color::RGBA(0, 0, 0, 255));
         canvas.clear();
     
